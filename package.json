@@ -1,0 +1,21 @@
+{
+  "name": "q-a-bot",
+  "version": "1.0.0",
+  "description": "Q&A bot which uses RAG",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pshri5/Q-A-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/pshri5/Q-A-bot/issues"
+  },
+  "homepage": "https://github.com/pshri5/Q-A-bot#readme"
+}
