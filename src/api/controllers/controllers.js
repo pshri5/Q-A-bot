@@ -68,3 +68,48 @@ export const askController = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+export const regenerateEmbeddingsController = async (req, res) => {
+  try {
+    const { baseUrl } = req.body;
+    
+    if (!baseUrl) {
+      return res.status(400).json({ error: 'baseUrl is required' });
+    }
+    
+    // Step 1: Crawl website again
+    console.log(`Starting fresh crawl for regenerating embeddings: ${baseUrl}`);
+    const pages = await crawlerService.crawlWebsite(baseUrl);
+    
+    // Step 2: Extract text
+    console.log('Extracting text from HTML pages...');
+    const documents = extractorService.extractText(pages);
+    
+    // Step 3: Chunk text
+    console.log('Chunking documents...');
+    const chunks = chunkerService.chunkDocuments(documents);
+    
+    // Step 4: Generate new embeddings
+    console.log('Regenerating embeddings...');
+    const embeddedChunks = await embeddingService.generateEmbeddings(chunks);
+    
+    // Step 5: Reset vector database and store fresh embeddings
+    console.log('Resetting vector database and storing fresh embeddings...');
+    await vectorDBService.resetVectorStore();
+    await vectorDBService.addDocuments(embeddedChunks);
+    
+    return res.status(200).json({ 
+      success: true, 
+      message: `Successfully regenerated embeddings for ${pages.length} pages from ${baseUrl}`,
+      stats: {
+        pagesCount: pages.length,
+        chunksCount: chunks.length,
+        embeddingsCount: embeddedChunks.length
+      }
+    });
+  } catch (error) {
+    console.error('Error in regenerate embeddings endpoint:', error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+

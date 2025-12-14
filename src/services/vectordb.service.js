@@ -63,6 +63,25 @@ class VectorDBService {
       title: doc.metadata.title
     }));
   }
+
+  async resetVectorStore() {
+    try {
+    console.log('Resetting vector store...');
+    // Initialize a new vector store
+    this.vectorStore = new HNSWLib(this.embeddings, {
+      space: 'cosine',
+      numDimensions: 1536 // Dimensions for text-embedding-3-small
+    });
+    
+    // Save the empty vector store
+    await this.saveToFile();
+    console.log('Vector store has been reset successfully');
+    return true;
+  } catch (error) {
+    console.error('Error resetting vector store:', error);
+    throw error;
+  }
+}
 }
 
 export default new VectorDBService();
