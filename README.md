@@ -1,6 +1,6 @@
 # Q&A Bot
 
-A Retrieval-Augmented Generation (RAG) based question answering system that crawls websites, indexes their content, and answers questions using the indexed information.
+A Retrieval-Augmented Generation (RAG) based question answering system that crawls websites, indexes their content, and answers questions using the indexed information with feature of regenrate embeddings for a fresh crawl
 
 ## Project Overview
 
